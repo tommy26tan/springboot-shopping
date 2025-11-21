@@ -30,10 +30,10 @@ public class CheckoutController {
     }
 
     @ExceptionHandler({PaymentException.class})
-    public ResponseEntity<?> handlePaymentException() {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                new ErrorDto("Error creating a checkout session")
-        );
+    public ResponseEntity<?> handlePaymentException(PaymentException ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorDto(ex.getMessage()));
     }
 
     @ExceptionHandler({CartNotFoundException.class, CartEmptyException.class})
