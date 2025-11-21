@@ -52,7 +52,11 @@ public class StripePaymentGateway implements IPaymentGateWay {
     public Optional<PaymentResult> parseWebhookRequest(WebhookRequest request) {
         try {
             var payload = request.getPayload();
-            var signature = request.getHeaders().get("stripe-signature");
+            var signature = request.getHeaders().get("Stripe-Signature");
+
+            if (signature == null) {
+                signature = request.getHeaders().get("stripe-signature");
+            }
             var event = Webhook.constructEvent(payload, signature, webhookSecretKey);
 
 
